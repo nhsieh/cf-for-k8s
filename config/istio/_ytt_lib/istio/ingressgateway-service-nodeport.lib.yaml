@@ -2,13 +2,8 @@
 #@ load("@ytt:overlay", "overlay")
 
 #@ def ingressgateway_service_nodeport():
-#@ if data.values.load_balancer.enable == False:
-#@overlay/match by=overlay.subset({"kind":"Service","metadata":{"name":"istio-ingressgateway"}})
 ---
 spec:
   #@overlay/replace
   type: NodePort
-#@ else:
----
-#@ end
 #@ end

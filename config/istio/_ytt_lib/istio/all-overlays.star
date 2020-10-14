@@ -4,7 +4,6 @@ load("app-sidecar.lib.yaml", "app_sidecar")
 load("control-plane-network-policy.lib.yaml", "control_plane_network_policy")
 load("external-routing.lib.yaml", "external_routing")
 load("fluent-bit-ingressgateway-config-map.lib.yaml", "fluent_bit_ingressgateway_config_map")
-load("gateway.lib.yaml", "gateway")
 load("ingressgateway-service-nodeport.lib.yaml", "ingressgateway_service_nodeport")
 load("istio-kapp-ordering.lib.yaml", "istio_kapp_ordering")
 load("label-istio-ns.lib.yaml", "label_istio_ns")
@@ -22,14 +21,16 @@ all_overlays = [
   control_plane_network_policy,
   external_routing,
   fluent_bit_ingressgateway_config_map,
-  ingressgateway_service_nodeport,
   istio_kapp_ordering,
   label_istio_ns,
   peer_auth_fluentd,
   remove_hpas_and_scale_istiod,
-  remove_resource_requirements,
   upgrade_istio_sidecars_job,
-  use_external_dns_for_wildcard,
-  use_first_party_jwt_tokens,
-#  gateway,
 ]
+
+conditional_overlays = {
+  "ingressgateway_service_nodeport": ingressgateway_service_nodeport,
+  "remove_resource_requirements": remove_resource_requirements,
+  "use_external_dns_for_wildcard": use_external_dns_for_wildcard,
+  "use_first_party_jwt_tokens": use_first_party_jwt_tokens,
+}

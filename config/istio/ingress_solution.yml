@@ -25,11 +25,7 @@ workloads_certificate:
   key: #@ data.values.workloads_certificate.key
   ca: #@ data.values.workloads_certificate.ca
 load_balancer:
-  enable: #@ data.values.load_balancer.enable
   static_ip: #@ data.values.load_balancer.static_ip
-remove_resource_requirements: #@ data.values.remove_resource_requirements
-use_external_dns_for_wildcard: #@ data.values.use_external_dns_for_wildcard
-use_first_party_jwt_tokens: #@ data.values.use_first_party_jwt_tokens
 #@ end
 
 #@ if data.values.networking.ingress_solution_provider == "istio":
@@ -42,6 +38,23 @@ use_first_party_jwt_tokens: #@ data.values.use_first_party_jwt_tokens
 --- #@ template.replace(overlay())
 #@   end
 
+#@ conditional_overlays = istio.export("conditional_overlays", path="all-overlays.star")
+
+#@ if not data.values.load_balancer.enable:
+--- #@ template.replace(conditional_overlays["ingressgateway_service_nodeport"]())
+#@ end
+
+#@ if data.values.remove_resource_requirements:
+--- #@ template.replace(conditional_overlays["remove_resource_requirements"]())
+#@ end
+
+#@ if data.values.use_external_dns_for_wildcard:
+--- #@ template.replace(conditional_overlays["use_external_dns_for_wildcard"]())
+#@ end
+
+#@ if data.values.use_first_party_jwt_tokens:
+--- #@ template.replace(conditional_overlays["use_first_party_jwt_tokens"]())
+#@ end
 
 #@ end
 
