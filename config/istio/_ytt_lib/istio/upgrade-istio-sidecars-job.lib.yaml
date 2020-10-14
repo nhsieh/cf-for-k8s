@@ -1,21 +1,20 @@
-#@ load("/namespaces.star", "workloads_namespace")
-
 #@ def build_version():
 #@   return "1.7.3"
 #@ end
 
+#@ def upgrade_istio_sidecars_job():
 ---
 kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: restart-workloads
-  namespace: #@ workloads_namespace()
+  namespace: cf-workloads
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: restart-workloads
-  namespace: #@ workloads_namespace()
+  namespace: cf-workloads
 rules:
   - apiGroups: ["apps", "extensions"]
     resources: ["statefulsets"]
@@ -28,7 +27,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: restart-workloads
-  namespace: #@ workloads_namespace()
+  namespace: cf-workloads
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -36,7 +35,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: restart-workloads
-    namespace: #@ workloads_namespace()
+    namespace: cf-workloads
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -60,13 +59,13 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: restart-workloads
-    namespace: #@ workloads_namespace()
+    namespace: cf-workloads
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: #@ "restart-workloads-for-istio" + build_version().replace(".", "-")
-  namespace: #@ workloads_namespace()
+  namespace: cf-workloads
   labels:
     cloudfoundry.org/istio_version: #@ build_version()
 spec:
@@ -84,3 +83,4 @@ spec:
           env:
           - name: ISTIO_VERSION
             value: #@ build_version()
+#@ end

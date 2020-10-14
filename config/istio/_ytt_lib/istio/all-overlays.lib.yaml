@@ -1,3 +1,0 @@
-#@ load("add-istio-injection.lib.yml", "add_istio_injection")
-
-#@ all_overlays = [add_istio_injection]

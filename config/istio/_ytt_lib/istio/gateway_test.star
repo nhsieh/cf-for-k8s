@@ -1,5 +1,5 @@
 load("@ytt:assert", "assert")
-load("gateway.lib.yml", "gateway")
+load("gateway.lib.yaml", "gateway")
 
 def test_gateway_when_app_domain_equals_system_domain():
   result = gateway("sys-and-app-domain.com", ["sys-and-app-domain.com"], "sys-namespace", "work-namespace", True)

@@ -1,14 +1,14 @@
-#@ load("/namespaces.star", "system_namespace")
-
+#@ def peer_auth_fluentd():
 ---
 apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: fluentd-allow-plaintext
-  namespace: #@ system_namespace()
+  namespace: cf-system
 spec:
   selector:
     matchLabels:
       app: fluentd
   mtls:
     mode: PERMISSIVE
+#@ end

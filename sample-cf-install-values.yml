@@ -18,6 +18,9 @@ cf_admin_password: cfadminpassword
 blobstore:
   secret_access_key: the_blobstore_secret_key
 
+networking:
+  ingress_solution_provider: istio
+
 #! The admin password for operators to access the database.
 cf_db:
   admin_password: the_cf_dbadmin_password
@@ -29,6 +32,11 @@ capi:
   database:
     password: ccdb_password
     encryption_key: ccdb_encryption_key
+    adapter:
+    host:
+    name:
+    port: 
+    user:
 
 #! When true, automatically upgrades incoming HTTP connections to HTTPS
 gateway:
@@ -113,3 +121,5 @@ use_first_party_jwt_tokens: true
 
 load_balancer:
   enable: false
+  static_ip: "1.2.3.4"
+app_log_destinations: []
