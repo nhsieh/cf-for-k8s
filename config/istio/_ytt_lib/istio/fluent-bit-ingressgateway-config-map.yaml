@@ -1,4 +1,3 @@
-#@ def fluent_bit_ingressgateway_config_map():
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -48,5 +47,3 @@ data:
       new_record["source_type"] = "RTR"
       return 1, timestamp, new_record
     end
-
-#@ end

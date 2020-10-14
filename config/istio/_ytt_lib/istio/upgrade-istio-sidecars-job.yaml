@@ -2,7 +2,6 @@
 #@   return "1.7.3"
 #@ end
 
-#@ def upgrade_istio_sidecars_job():
 ---
 kind: ServiceAccount
 apiVersion: v1
@@ -83,4 +82,3 @@ spec:
           env:
           - name: ISTIO_VERSION
             value: #@ build_version()
-#@ end

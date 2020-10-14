@@ -31,7 +31,7 @@ load_balancer:
 #@ if data.values.networking.ingress_solution_provider == "istio":
 #@ istio = library.get("istio").with_data_values(ingress_values())
 
-#! --- #@ template.replace(istio.with_data_values(ingress_values()).eval()) # TODO investigate for non-overlay comrades
+--- #@ template.replace(istio.with_data_values(ingress_values()).eval())
 
 #@   overlays = istio.export("all_overlays", path="all-overlays.star")
 #@   for overlay in overlays:
