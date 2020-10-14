@@ -1,0 +1,12 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:library", "library")
+#@ load("@ytt:template", "template")
+
+#@ if data.values.networking.ingress_solution_provider == "istio":
+#@   lib = library.get("istio")
+#@   overlays = lib.export("all_overlays", path="all-overlays.lib.yml")
+#@   for overlay in overlays:
+--- #@ template.replace(overlay())
+#@   end
+#@ end
+
