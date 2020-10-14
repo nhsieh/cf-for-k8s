@@ -33,12 +33,12 @@ load_balancer:
 
 --- #@ template.replace(istio.with_data_values(ingress_values()).eval())
 
-#@   overlays = istio.export("all_overlays", path="all-overlays.star")
+#@   overlays = istio.export("all_overlays", path="manifest.star")
 #@   for overlay in overlays:
 --- #@ template.replace(overlay())
 #@   end
 
-#@ conditional_overlays = istio.export("conditional_overlays", path="all-overlays.star")
+#@ conditional_overlays = istio.export("conditional_overlays", path="manifest.star")
 
 #@ if not data.values.load_balancer.enable:
 --- #@ template.replace(conditional_overlays["ingressgateway_service_nodeport"]())
