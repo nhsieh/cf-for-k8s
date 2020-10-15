@@ -1,3 +1,4 @@
+#@ load("@ytt:data", "data")
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -31,7 +32,7 @@ data:
     [OUTPUT]
         Name forward
         Match istio-ingressgateway
-        Host fluentd-forwarder-ingress.cf-system
+        Host fluentd-forwarder-ingress.(@= data.values.system_namespace @)
         Port 24224
   parsers.conf : |-
     [PARSER]

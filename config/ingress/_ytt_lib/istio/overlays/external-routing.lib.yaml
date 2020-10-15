@@ -5,7 +5,7 @@
 #@ load("gateway.lib.yaml", "gateway")
 
 #@ def external_routing():
---- #@ gateway(data.values.system_domain, data.values.app_domains, "cf-system", "cf-workloads", data.values.gateway.https_only)
+--- #@ gateway(data.values.system_domain, data.values.app_domains, data.values.system_namespace, data.values.workloads_namespace, data.values.gateway.https_only)
 
 #! this secret contains the certificate/key combo used for the external system domain
 ---
