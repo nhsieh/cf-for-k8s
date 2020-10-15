@@ -1,3 +1,4 @@
+load("@ytt:data", "data")
 load("overlays/add-istio-injection.lib.yaml", "add_istio_injection")
 load("overlays/control-plane-network-policy.lib.yaml", "control_plane_network_policy")
 load("overlays/external-routing.lib.yaml", "external_routing")
@@ -18,9 +19,19 @@ all_overlays = [
   remove_hpas_and_scale_istiod,
 ]
 
-conditional_overlays = {
-  "ingressgateway_service_nodeport": ingressgateway_service_nodeport,
-  "remove_resource_requirements": remove_resource_requirements,
-  "use_external_dns_for_wildcard": use_external_dns_for_wildcard,
-  "use_first_party_jwt_tokens": use_first_party_jwt_tokens,
-}
+if not data.values.load_balancer.enable:
+  all_overlays.append(ingressgateway_service_nodeport)
+end
+
+if data.values.remove_resource_requirements:
+  all_overlays.append(remove_resource_requirements)
+end
+
+if data.values.use_external_dns_for_wildcard:
+  all_overlays.append(use_external_dns_for_wildcard)
+end
+
+if data.values.use_first_party_jwt_tokens:
+  all_overlays.append(use_first_party_jwt_tokens)
+end
+
