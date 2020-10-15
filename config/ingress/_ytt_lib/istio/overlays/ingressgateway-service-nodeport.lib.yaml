@@ -2,6 +2,7 @@
 #@ load("@ytt:overlay", "overlay")
 
 #@ def ingressgateway_service_nodeport():
+#@overlay/match by=overlay.subset({"kind":"Service","metadata":{"name":"istio-ingressgateway"}})
 ---
 spec:
   #@overlay/replace
